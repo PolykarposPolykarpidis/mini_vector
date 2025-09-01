@@ -1,15 +1,18 @@
 #include <iostream>
-#include "Vector.h"
+#include <new>
+#include <cstdlib>
 
 int main() {
-    Vector<int> v;
-    // v.push_back(10);
-    // v.push_back(20);
-    // v.push_back(30);
+    size_t m_Capacitor = 10;
 
-    // for (size_t i = 0; i < v.size(); i++)
-    //     std::cout << v[i] << " ";
-    // std::cout << std::endl;
+    void* raw = operator new (m_Capacitor * sizeof(int));
+    int* int_array = static_cast<int*>(raw);
+
+    for(size_t i=0; i<m_Capacitor; i++)
+        int_array[i] = i;
+    
+    for(size_t i=0; i<m_Capacitor; i++)
+        std::cout<<int_array[i]<<'\n';
 
     return 0;
 }
