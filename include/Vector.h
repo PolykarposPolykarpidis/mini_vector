@@ -11,26 +11,54 @@ class Vector{
 public:
 
     Vector(){
-        void* raw = operator new(m_Capacity * sizeof(T));
+        m_Capacity=10;
+        m_Size=0;
+        raw = operator new(m_Capacity * sizeof(T));
+        m_Data = static_cast<T*>(raw);
     }
 
-    // T Vector(const T& element){
-    //     if (m_Size<m_Capacity){
-    //         T* obj = new (raw) T;
-    //     }
-    // }
+    void push_back(T element){
+        if (m_Size<m_Capacity){
+            m_Data[m_Size] = element;
+            m_Size++;
+        }
+        else{
+            std::cout<<"There is no space!\n";
+        }
+    }
 
+    T pull_back(){
+        if(m_Size == 0) {
+            std::cout<<"There is no element in the vector!\n";
+            return -100;
+        }
+        m_Size = m_Size - 1;
+        return m_Data[m_Size];
+    }
 
-    // void push_back(T element){
-    //     T* obj = new (raw) T;
-    // }
+    T operator[] (size_t index){
+        if (index>=m_Size) {
+            std::cout<<"There is no such position in the vector!\n";
+            return -100;
+        }
+        return m_Data[index];
+    }
+
+    ~Vector(){
+        raw = nullptr;
+        delete[] m_Data;
+    }
+
+    size_t size(){
+        return m_Size;
+    }
 
 
 private:
-    T node;
-    uint32_t m_Capacity=10;
-    uint32_t m_Size=0;
+    uint32_t m_Capacity;
+    uint32_t m_Size;
     void* raw;
+    T* m_Data;
 };
 
 
